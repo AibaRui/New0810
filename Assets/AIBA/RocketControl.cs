@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Cinemachine;
 public class RocketControl : MonoBehaviour
 {
     [Header("ˆÚ“®‚Ì‘¬‚³")]
@@ -20,6 +20,10 @@ public class RocketControl : MonoBehaviour
 
 
     [SerializeField] GameObject _upPos;
+    [SerializeField] string _animhit= "RoketDamaged";
+
+    PlayerCounter _playerCounter;
+
 
     float _hitPosY = 0;
 
@@ -29,11 +33,13 @@ public class RocketControl : MonoBehaviour
     bool _isJet2;
 
     Quaternion nowRotation;
-
+    Animator _anim;
     Rigidbody2D _rb;
     void Start()
     {
         _rb = gameObject.GetComponent<Rigidbody2D>();
+        _anim = gameObject.GetComponent<Animator>();
+        _playerCounter = FindObjectOfType<PlayerCounter>();
     }
 
     // Update is called once per frame
@@ -49,6 +55,9 @@ public class RocketControl : MonoBehaviour
             _rb.isKinematic = true;                        //“®‚©‚È‚­‚·‚é
             _isRestart = true;
             StartCoroutine(Hit());
+            _anim.Play(_animhit);
+            GameManager gm = GameObject.FindObjectOfType<GameManager>();
+            gm.PlayerDead();
         }
 
         if (!_isRestart)
@@ -57,7 +66,7 @@ public class RocketControl : MonoBehaviour
             Player2JetMove();
             nowRotation = transform.rotation;
         }
-        Fi();
+      
 
     }
     /// <summary>•œ‹A‚Ü‚Å‚ÌŽžŠÔ</summary>
@@ -70,7 +79,7 @@ public class RocketControl : MonoBehaviour
     }
 
 
-    void Fi()
+    void FixedUpdate()
     {
 
         if (!_isRestart)
