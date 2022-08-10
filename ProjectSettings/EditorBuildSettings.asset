@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Ryoma/Title.unity
+    guid: 1afb37613930de34b9deec1a89546a7c
+  - enabled: 1
+    path: Assets/Ryoma/Rocet.unity
+    guid: 4fec080e304d357409b73376db6a33ce
   m_configObjects: {}
