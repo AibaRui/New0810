@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;  // シーン遷移を行うために追加している
 public class GameManager : MonoBehaviour
 {
     /// <summary>シーンをロードするコンポーネント</summary>
@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     /// <summary>スコア表示用 Text</summary>
    // [SerializeField] Text m_scoreText = null;
     /// <summary>GameOver 表示用 Text</summary>
-    [SerializeField] Text m_gameoverText = null;
     [SerializeField] GameObject _gameOverZone;
     /// <summary>タイマー</summary>
     float m_timer;
@@ -46,14 +45,6 @@ public class GameManager : MonoBehaviour
     {
         _pRb = _pRb.GetComponent<Rigidbody2D>();
         // ゲームオーバーの表示を消す
-        if (m_gameoverText)
-        {
-            m_gameoverText.enabled = false;
-        }
-
-
-
-
 
         enemyGenerater = GetComponent<EnemyGenerater>();
         m_playerCounter = GetComponent<PlayerCounter>();
@@ -67,11 +58,14 @@ public class GameManager : MonoBehaviour
             case GameState.NonInitialized:
                 Debug.Log("Initialize.");
              m_playerCounter.Refresh(m_life);    // 残機表示を更新する
-             m_playerCounter.Refresh(m_life);    // 残機表示を更新する
-                StartCoroutine(CountStart());
+
+
+   
 
                 m_status = GameState.StartCount;
                 m_playerObject.transform.position = _startPos.position;
+
+             StartCoroutine(CountStart());
                 break;
             case GameState.StartCount:
 
@@ -91,12 +85,12 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.PlayerDead:
                 // 残機がなかったらゲームオーバーを表示する
-                if (m_gameoverText && m_life < 2)
+                if (m_life < 2)
                 {
-                    m_gameoverText.enabled = true;
                     if (_enemyGeneration)
                     {
                         _enemyGeneration.SetActive(false);
+                        SceneManager.LoadScene("GAME OVER");
                     }
 
                 }

@@ -8,7 +8,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ryoma/Title.unity
     guid: 1afb37613930de34b9deec1a89546a7c
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Ryoma/Rocet.unity
-    guid: 4fec080e304d357409b73376db6a33ce
+    path: Assets/AIBA/Stage1.unity
+    guid: 84aa5d0e18e987e48af4e8ce1b52af65
+  - enabled: 1
+    path: Assets/AIBA/Stage2.unity
+    guid: 95c813bda5b39514e98bed34c56a1d30
+  - enabled: 1
+    path: Assets/MORISHIMA/Scene/GAME CLEAR.unity
+    guid: 5affe999bc4d3534cb6e2d95253d6183
+  - enabled: 1
+    path: Assets/MORISHIMA/Scene/GAME OVER.unity
+    guid: 7522f3681c5a8bf4e9d4b4cef3754bb0
   m_configObjects: {}

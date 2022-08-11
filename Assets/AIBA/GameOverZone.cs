@@ -7,10 +7,7 @@ public class GameOverZone : MonoBehaviour
 {
     /// <summary>ロードするシーン名</summary>
     [SerializeField] string m_sceneNameToBeLoaded = "SceneNameToBeLoaded";
-    [SerializeField] GameObject _canvasGameOverFallArth;
 
-    [SerializeField] string Animationname = "";
-    [SerializeField] Animator _anim;
 
 
  
@@ -20,19 +17,11 @@ public class GameOverZone : MonoBehaviour
         if(collision.gameObject.tag=="Player")
         {
             Debug.Log("IN");
-            _canvasGameOverFallArth.SetActive(true);
-            _anim = _anim.gameObject.GetComponent<Animator>();
-            _anim.Play(Animationname);
+        SceneManager.LoadScene(m_sceneNameToBeLoaded);
         }
 
     }
 
 
-
-    public void GameOverFallArth()
-    {
-        _canvasGameOverFallArth.SetActive(false);
-        SceneManager.LoadScene(m_sceneNameToBeLoaded);
-    }
 
 }
