@@ -4,6 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
+<<<<<<< HEAD
   m_Scenes:
   - enabled: 1
     path: Assets/Ryoma/Credit.unity
@@ -26,4 +27,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AIBA/Stage2.unity
     guid: 95c813bda5b39514e98bed34c56a1d30
+=======
+  m_Scenes: []
+>>>>>>> f81f52486f1b44849e1b469f980c95eae512184e
   m_configObjects: {}
