@@ -6,6 +6,6 @@ public class RESTART : MonoBehaviour
 {
     public void OnClick()
     {
-        FadeManager.Instance.LoadScene("Rocet",1.0f);
+        FadeManager.Instance.LoadScene("StageChoice",1.0f);
     }
 }

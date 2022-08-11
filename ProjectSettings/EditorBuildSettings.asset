@@ -4,30 +4,29 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-<<<<<<< HEAD
   m_Scenes:
-  - enabled: 1
-    path: Assets/Ryoma/Credit.unity
-    guid: 81da4beaf0783c44f81570aaba56475d
   - enabled: 1
     path: Assets/Ryoma/Title.unity
     guid: 1afb37613930de34b9deec1a89546a7c
   - enabled: 1
+    path: Assets/Ryoma/Credit.unity
+    guid: 81da4beaf0783c44f81570aaba56475d
+  - enabled: 1
     path: Assets/Ryoma/Tutorial.unity
     guid: 818ff02ddf6dfc749b0146a73d0dded3
   - enabled: 1
-    path: Assets/MORISHIMA/Scene/GAME OVER.unity
-    guid: 7522f3681c5a8bf4e9d4b4cef3754bb0
-  - enabled: 1
-    path: Assets/MORISHIMA/Scene/GAME CLEAR.unity
-    guid: 5affe999bc4d3534cb6e2d95253d6183
+    path: Assets/StageChoice/StageChoice.unity
+    guid: 9493ff09412f6a643b1e015a1fc4f320
   - enabled: 1
     path: Assets/AIBA/Stage1.unity
     guid: 561d42c269a58254fa673d6cef361088
   - enabled: 1
     path: Assets/AIBA/Stage2.unity
     guid: 95c813bda5b39514e98bed34c56a1d30
-=======
-  m_Scenes: []
->>>>>>> f81f52486f1b44849e1b469f980c95eae512184e
+  - enabled: 1
+    path: Assets/MORISHIMA/Scene/GAME OVER.unity
+    guid: 7522f3681c5a8bf4e9d4b4cef3754bb0
+  - enabled: 1
+    path: Assets/MORISHIMA/Scene/GAME CLEAR.unity
+    guid: 5affe999bc4d3534cb6e2d95253d6183
   m_configObjects: {}
