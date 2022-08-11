@@ -57,15 +57,15 @@ public class GameManager : MonoBehaviour
         {
             case GameState.NonInitialized:
                 Debug.Log("Initialize.");
-             m_playerCounter.Refresh(m_life);    // 残機表示を更新する
+                m_playerCounter.Refresh(m_life);    // 残機表示を更新する
 
 
-   
+
 
                 m_status = GameState.StartCount;
                 m_playerObject.transform.position = _startPos.position;
 
-             StartCoroutine(CountStart());
+                StartCoroutine(CountStart());
                 break;
             case GameState.StartCount:
 
@@ -87,11 +87,14 @@ public class GameManager : MonoBehaviour
                 // 残機がなかったらゲームオーバーを表示する
                 if (m_life < 2)
                 {
-                    if (_enemyGeneration)
+
+                    if (_enemyGeneration != null)
                     {
                         _enemyGeneration.SetActive(false);
-                        SceneManager.LoadScene("GAME OVER");
                     }
+
+                    SceneManager.LoadScene("GAME OVER");
+
 
                 }
 
@@ -129,7 +132,7 @@ public class GameManager : MonoBehaviour
 
         _isStart = true;
         _pRb.isKinematic = false;
-     
+
         if (enemyGenerater)
         {
             enemyGenerater._countTime = 0;
