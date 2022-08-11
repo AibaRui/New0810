@@ -12,24 +12,30 @@ public class RocketControl : MonoBehaviour
     [Header("傾き角度")]
     [SerializeField] float _rotation = 0.001f;
 
-    [Header("速度制限")]
-    [SerializeField] float _speedLimitY = 5;
-    [SerializeField] float _speedLimitX = 4;
-
+    [Header("リスポーンするまでの時間")]
     [SerializeField] float _responTime = 2;
 
+    [Header("ボタンのイメージ")]
 
-    [SerializeField] GameObject _upPos;
-    [SerializeField] string _animhit= "RoketDamaged";
+ 　  /// <summary>プレイヤー１のボタンの画像</summary>  
+    [SerializeField] GameObject _p1Button; 
+    /// <summary>プレイヤー２のボタンの画像</summary>  
+    [SerializeField] GameObject _p2Button;
 
-    PlayerCounter _playerCounter;
+    [Header("被ダメージ時のアニメーションの名前")]
+    [SerializeField] string _animhit = "RoketDamaged";
 
-
+    /// <summary>リスタートする時のステージの真ん中</summary>  
     float _hitPosY = 0;
 
+
+    /// <summary>リスタート中かどうかの判定</summary>
     bool _isRestart;
+    /// <summary>Plダメージを受けたかどうかの判定</summary>
     bool _isDamage;
+    /// <summary>Player1がボタンが押しているかどうかの判定</summary>
     bool _isJet1;
+    /// <summary>Player2がボタンが押しているかどうかの判定</summary>
     bool _isJet2;
 
     Quaternion nowRotation;
@@ -39,7 +45,6 @@ public class RocketControl : MonoBehaviour
     {
         _rb = gameObject.GetComponent<Rigidbody2D>();
         _anim = gameObject.GetComponent<Animator>();
-        _playerCounter = FindObjectOfType<PlayerCounter>();
     }
 
     // Update is called once per frame
@@ -66,7 +71,7 @@ public class RocketControl : MonoBehaviour
             Player2JetMove();
             nowRotation = transform.rotation;
         }
-      
+
 
     }
     /// <summary>復帰までの時間</summary>
@@ -81,90 +86,60 @@ public class RocketControl : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if (!_isRestart)
         {
-
             if (!_isDamage)
             {
                 if (_isJet1 && _isJet2)
                 {
-                    Vector3 _pos = _upPos.transform.position - transform.position;
-
-                  //  _rb.freezeRotation = true;
-
                     transform.rotation = nowRotation;
-                    _rb.AddForce(transform.up* _speedDobleJet);
-                   // transform.position += new Vector3(0, 0.1f,0);
+                    _rb.AddForce(transform.up * _speedDobleJet);
 
                     Vector3 worldAngle = this.transform.eulerAngles;
                     worldAngle.z -= 0;
-
                     transform.eulerAngles = worldAngle; // 回転角度を設定
+
+
+                    _p1Button.SetActive(true);
+                    _p2Button.SetActive(true);
+
                 }
-                else if(_isJet1||_isJet2)
+                else if (_isJet1 || _isJet2)
                 {
-                    //_rb.freezeRotation = false;
                     if (_isJet1)
                     {
+                        // 回転角度を設定
                         Vector3 worldAngle = this.transform.eulerAngles;
+                        worldAngle.z -= _rotation;
+                        transform.eulerAngles = worldAngle;
 
-                            worldAngle.z -= _rotation;
-                        
-                        transform.eulerAngles = worldAngle; // 回転角度を設定
-
-                        //Vector3 _pos = _upPos.transform.position - transform.position;
-                       // _rb.AddForce(_pos.normalized * _speedDobleJet);
 
                         _rb.AddForce(transform.up * _speedJet);
-                        _rb.AddForce(transform.right * _speedJet/2);
+                        _rb.AddForce(transform.right * _speedJet / 2);
+
+                        _p1Button.SetActive(true);
+                        _p2Button.SetActive(false);
                     }
 
                     if (_isJet2)
                     {
+                        // 回転角度を設定
                         Vector3 worldAngle = this.transform.eulerAngles;
-
-
-
-                        //if (transform.eulerAngles.z < -10)
-                        //{
-                        //    worldAngle.z += _rotation * 2;
-                        //}
-                        //else
-                        
-                            worldAngle.z += _rotation;
-                        
-                        transform.eulerAngles = worldAngle; // 回転角度を設定
-
-                       // Vector3 _pos = _upPos.transform.position-transform.position;
-
-                        //_rb.AddForce(_pos.normalized * _speedDobleJet);
+                        worldAngle.z += _rotation;
+                        transform.eulerAngles = worldAngle;
 
                         _rb.AddForce(transform.up * _speedJet);
-                       _rb.AddForce(-1*transform.right * _speedJet/2);
+                        _rb.AddForce(-1 * transform.right * _speedJet / 2);
 
+                        _p1Button.SetActive(false);
+                        _p2Button.SetActive(true);
                     }
                 }
-
-
-
-
-                //if (_rb.velocity.x > _speedLimitX)
-                //{
-                //    Vector2 velo = new Vector2(_speedLimitX, _rb.velocity.y);
-                //    _rb.velocity = velo;
-                //}
-                //else if (_rb.velocity.x < _speedLimitX)
-                //{
-                //    Vector2 velo = new Vector2(-_speedLimitX, _rb.velocity.y);
-                //    _rb.velocity = velo;
-                //}
-
-                //if (_rb.velocity.y > _speedLimitY)
-                //{
-                //    Vector2 velo = new Vector2(_rb.velocity.x, _speedLimitY);
-                //    _rb.velocity = velo;
-                //}
+                else
+                {
+                    _p1Button.SetActive(false);
+                    _p2Button.SetActive(false);
+                }
             }
         }
     }
@@ -175,12 +150,10 @@ public class RocketControl : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-
             _isJet1 = true;
         }
         else
         {
-
             _isJet1 = false;
         }
 

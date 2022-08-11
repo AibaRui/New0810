@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
    // [SerializeField] Text m_scoreText = null;
     /// <summary>GameOver 表示用 Text</summary>
     [SerializeField] Text m_gameoverText = null;
+    [SerializeField] GameObject _gameOverZone;
     /// <summary>タイマー</summary>
     float m_timer;
 
@@ -40,6 +41,9 @@ public class GameManager : MonoBehaviour
         {
             m_gameoverText.enabled = false;
         }
+
+        _gameOverZone.SetActive(false);
+
 
         m_playerCounter = GetComponent<PlayerCounter>();
     }
