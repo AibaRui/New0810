@@ -27,24 +27,35 @@ public class GameManager : MonoBehaviour
     /// <summary>タイマー</summary>
     float m_timer;
 
+    bool _isStart;
+
     [SerializeField] Transform _startPos;
+    /// <summary>隕石（上）を生成するオブジェクト</summary>
+    [SerializeField] GameObject _enemyGeneration;
+    EnemyGenerater enemyGenerater;
 
+    [SerializeField] GameObject[] _wideGene = new GameObject[0];
 
+    [SerializeField] Text _startText;
+
+    [SerializeField] Rigidbody2D _pRb;
 
     /// <summary>ゲームの状態</summary>
     GameState m_status = GameState.NonInitialized;
     void Start()
     {
-
+        _pRb = _pRb.GetComponent<Rigidbody2D>();
         // ゲームオーバーの表示を消す
         if (m_gameoverText)
         {
             m_gameoverText.enabled = false;
         }
 
-        _gameOverZone.SetActive(false);
 
 
+
+
+        enemyGenerater = GetComponent<EnemyGenerater>();
         m_playerCounter = GetComponent<PlayerCounter>();
     }
 
@@ -55,11 +66,20 @@ public class GameManager : MonoBehaviour
         {
             case GameState.NonInitialized:
                 Debug.Log("Initialize.");
-                m_playerObject.transform.position = _startPos.position;
+             m_playerCounter.Refresh(m_life);    // 残機表示を更新する
+             m_playerCounter.Refresh(m_life);    // 残機表示を更新する
+                StartCoroutine(CountStart());
 
-                m_status = GameState.Initialized;   // ステータスを初期化済みにする
-                m_playerCounter.Refresh(m_life);    // 残機表示を更新する
+                m_status = GameState.StartCount;
+                m_playerObject.transform.position = _startPos.position;
                 break;
+            case GameState.StartCount:
+
+
+
+
+                break;
+
             case GameState.Initialized:
                 m_timer += Time.deltaTime;
                 if (m_timer > m_waitTimeUntilGameStarts)    // 待つ
@@ -71,9 +91,14 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.PlayerDead:
                 // 残機がなかったらゲームオーバーを表示する
-                if (m_gameoverText && m_life < 1)
+                if (m_gameoverText && m_life < 2)
                 {
                     m_gameoverText.enabled = true;
+                    if (_enemyGeneration)
+                    {
+                        _enemyGeneration.SetActive(false);
+                    }
+
                 }
 
                 m_timer += Time.deltaTime;
@@ -92,6 +117,45 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+
+
+    IEnumerator CountStart()
+    {
+        _pRb.isKinematic = true;
+        yield return new WaitForSeconds(1);
+        _startText.text = "   3";
+        yield return new WaitForSeconds(1);
+        _startText.text = "   2";
+        yield return new WaitForSeconds(1);
+        _startText.text = "   1";
+        yield return new WaitForSeconds(1);
+        _startText.text = "Go!";
+
+        _isStart = true;
+        _pRb.isKinematic = false;
+     
+        if (enemyGenerater)
+        {
+            enemyGenerater._countTime = 0;
+        }
+
+        for (int i = 0; i < _wideGene.Length; i++)
+        {
+            _wideGene[i].gameObject.SetActive(true);
+        }
+        _gameOverZone.SetActive(false);
+        if (_enemyGeneration)
+        {
+            _enemyGeneration.SetActive(true);
+        }
+
+        m_status = GameState.Initialized;   // ステータスを初期化済みにする
+
+
+        yield return new WaitForSeconds(1);
+        _startText.text = " ";
     }
 
     public void PlayerDead()
@@ -137,5 +201,7 @@ public class GameManager : MonoBehaviour
         InGame,
         /// <summary>プレイヤーがやられた</summary>
         PlayerDead,
+
+        StartCount,
     }
 }

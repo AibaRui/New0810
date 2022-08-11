@@ -14,6 +14,7 @@ public class RocketControl : MonoBehaviour
 
     [Header("リスポーンするまでの時間")]
     [SerializeField] float _responTime = 2;
+    [SerializeField] float _mutekiTime=5;
 
     [Header("ボタンのイメージ")]
 
@@ -24,6 +25,13 @@ public class RocketControl : MonoBehaviour
 
     [Header("被ダメージ時のアニメーションの名前")]
     [SerializeField] string _animhit = "RoketDamaged";
+
+
+    [SerializeField] GameObject _fire1;
+    [SerializeField] GameObject _fire2;
+    [SerializeField] GameObject _fireStrong;
+
+    [SerializeField] GameObject _baria;
 
     /// <summary>リスタートする時のステージの真ん中</summary>  
     float _hitPosY = 0;
@@ -58,11 +66,13 @@ public class RocketControl : MonoBehaviour
             _rb.freezeRotation = true;                      //回転をしない                           
             _rb.velocity = new Vector2(0, 0);               //速度を0
             _rb.isKinematic = true;                        //動かなくする
+            gameObject.layer = 8;
             _isRestart = true;
             StartCoroutine(Hit());
             _anim.Play(_animhit);
             GameManager gm = GameObject.FindObjectOfType<GameManager>();
             gm.PlayerDead();
+            _baria.SetActive(true);
         }
 
         if (!_isRestart)
@@ -81,7 +91,11 @@ public class RocketControl : MonoBehaviour
         _rb.isKinematic = false;
         _rb.freezeRotation = false;
         _isRestart = false;
+        _baria.SetActive(false);
+
     }
+
+
 
 
     void FixedUpdate()
@@ -99,6 +113,9 @@ public class RocketControl : MonoBehaviour
                     worldAngle.z -= 0;
                     transform.eulerAngles = worldAngle; // 回転角度を設定
 
+                    _fire1.SetActive(true);
+                    _fire2.SetActive(true);
+                    _fireStrong.SetActive(true);
 
                     _p1Button.SetActive(true);
                     _p2Button.SetActive(true);
@@ -117,6 +134,11 @@ public class RocketControl : MonoBehaviour
                         _rb.AddForce(transform.up * _speedJet);
                         _rb.AddForce(transform.right * _speedJet / 2);
 
+
+                        _fire1.SetActive(true);
+                        _fire2.SetActive(false);
+                        _fireStrong.SetActive(false);
+
                         _p1Button.SetActive(true);
                         _p2Button.SetActive(false);
                     }
@@ -131,12 +153,20 @@ public class RocketControl : MonoBehaviour
                         _rb.AddForce(transform.up * _speedJet);
                         _rb.AddForce(-1 * transform.right * _speedJet / 2);
 
+                        _fire1.SetActive(false);
+                        _fire2.SetActive(true);
+                        _fireStrong.SetActive(false);
+
                         _p1Button.SetActive(false);
                         _p2Button.SetActive(true);
                     }
                 }
                 else
                 {
+                    _fire1.SetActive(false);
+                    _fire2.SetActive(false);
+                    _fireStrong.SetActive(false);
+
                     _p1Button.SetActive(false);
                     _p2Button.SetActive(false);
                 }
@@ -162,7 +192,7 @@ public class RocketControl : MonoBehaviour
 
     void Player2JetMove()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.O))
         {
             // Debug.Log("p2,On");
             _isJet2 = true;
@@ -178,7 +208,7 @@ public class RocketControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall"||collision.gameObject.tag=="Enemy")
         {
             _isDamage = true;
             _hitPosY = transform.position.y;
