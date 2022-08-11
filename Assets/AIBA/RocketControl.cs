@@ -46,6 +46,10 @@ public class RocketControl : MonoBehaviour
     /// <summary>Player2Ç™É{É^ÉìÇ™âüÇµÇƒÇ¢ÇÈÇ©Ç«Ç§Ç©ÇÃîªíË</summary>
     bool _isJet2;
 
+    [SerializeField] AudioSource _oto1;
+    [SerializeField] AudioSource _oto2;
+
+
     Quaternion nowRotation;
     Animator _anim;
     Rigidbody2D _rb;
@@ -53,6 +57,10 @@ public class RocketControl : MonoBehaviour
     {
         _rb = gameObject.GetComponent<Rigidbody2D>();
         _anim = gameObject.GetComponent<Animator>();
+
+        _oto1 = gameObject.GetComponent<AudioSource>();
+        _oto2 = gameObject.GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -81,6 +89,10 @@ public class RocketControl : MonoBehaviour
             Player2JetMove();
             nowRotation = transform.rotation;
         }
+
+
+
+
 
 
     }
@@ -113,6 +125,8 @@ public class RocketControl : MonoBehaviour
                     worldAngle.z -= 0;
                     transform.eulerAngles = worldAngle; // âÒì]äpìxÇê›íË
 
+
+
                     _fire1.SetActive(true);
                     _fire2.SetActive(true);
                     _fireStrong.SetActive(true);
@@ -134,6 +148,7 @@ public class RocketControl : MonoBehaviour
                         _rb.AddForce(transform.up * _speedJet);
                         _rb.AddForce(transform.right * _speedJet / 2);
 
+                        
 
                         _fire1.SetActive(true);
                         _fire2.SetActive(false);
@@ -152,6 +167,8 @@ public class RocketControl : MonoBehaviour
 
                         _rb.AddForce(transform.up * _speedJet);
                         _rb.AddForce(-1 * transform.right * _speedJet / 2);
+
+                        
 
                         _fire1.SetActive(false);
                         _fire2.SetActive(true);

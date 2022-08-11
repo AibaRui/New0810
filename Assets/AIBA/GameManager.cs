@@ -119,13 +119,13 @@ public class GameManager : MonoBehaviour
     {
         _pRb.isKinematic = true;
         yield return new WaitForSeconds(1);
-        _startText.text = "   3";
+        _startText.text = "     3";
         yield return new WaitForSeconds(1);
-        _startText.text = "   2";
+        _startText.text = "     2";
         yield return new WaitForSeconds(1);
-        _startText.text = "   1";
+        _startText.text = "     1";
         yield return new WaitForSeconds(1);
-        _startText.text = "Go!";
+        _startText.text = "  Go!";
 
         _isStart = true;
         _pRb.isKinematic = false;
