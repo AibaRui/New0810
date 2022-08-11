@@ -7,6 +7,6 @@ public class RESTART : MonoBehaviour
 {
     public void OnClick()
     {
-        SceneManager.LoadScene("PlayScene");
+        SceneManager.LoadScene("Rocet");
     }
 }
