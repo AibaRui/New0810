@@ -8,7 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ryoma/Title.unity
     guid: 1afb37613930de34b9deec1a89546a7c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Ryoma/Rocet.unity
     guid: 4fec080e304d357409b73376db6a33ce
+  - enabled: 1
+    path: Assets/Ryoma/Tutorial.unity
+    guid: 818ff02ddf6dfc749b0146a73d0dded3
+  - enabled: 1
+    path: Assets/Ryoma/Credit.unity
+    guid: 81da4beaf0783c44f81570aaba56475d
   m_configObjects: {}
