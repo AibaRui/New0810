@@ -48,6 +48,7 @@ public class RocketControl : MonoBehaviour
 
     [SerializeField] AudioSource _oto1;
     [SerializeField] AudioSource _oto2;
+    [SerializeField] AudioSource _exeprosion;
 
 
     Quaternion nowRotation;
@@ -58,8 +59,9 @@ public class RocketControl : MonoBehaviour
         _rb = gameObject.GetComponent<Rigidbody2D>();
         _anim = gameObject.GetComponent<Animator>();
 
-        _oto1 = gameObject.GetComponent<AudioSource>();
-        _oto2 = gameObject.GetComponent<AudioSource>();
+        _oto1 = _oto1.GetComponent<AudioSource>();
+        _oto2 = _oto2.GetComponent<AudioSource>();
+        _exeprosion= gameObject.GetComponent<AudioSource>();
 
     }
 
@@ -94,7 +96,6 @@ public class RocketControl : MonoBehaviour
 
 
 
-
     }
     /// <summary>•œ‹A‚Ü‚Å‚ÌŽžŠÔ</summary>
     IEnumerator Hit()
@@ -104,7 +105,7 @@ public class RocketControl : MonoBehaviour
         _rb.freezeRotation = false;
         _isRestart = false;
         _baria.SetActive(false);
-
+        gameObject.layer = 7;
     }
 
 
@@ -204,6 +205,18 @@ public class RocketControl : MonoBehaviour
             _isJet1 = false;
         }
 
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            _oto1.Play();
+        }
+
+
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            _oto1.Stop();
+        }
+
+
     }
 
 
@@ -220,6 +233,20 @@ public class RocketControl : MonoBehaviour
             _isJet2 = false;
         }
 
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            _oto2.Play();
+        }
+
+
+        if (Input.GetKeyUp(KeyCode.O))
+        {
+            _oto2.Stop();
+        }
+
+
+
     }
 
 
@@ -227,6 +254,7 @@ public class RocketControl : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall"||collision.gameObject.tag=="Enemy")
         {
+            _exeprosion.Play();
             _isDamage = true;
             _hitPosY = transform.position.y;
         }

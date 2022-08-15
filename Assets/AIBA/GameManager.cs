@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;  // シーン遷移を行うために追加している
+using Cinemachine;
 public class GameManager : MonoBehaviour
 {
     /// <summary>シーンをロードするコンポーネント</summary>
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     bool _isStart;
 
+
+
     [SerializeField] Transform _startPos;
     /// <summary>隕石（上）を生成するオブジェクト</summary>
     [SerializeField] GameObject _enemyGeneration;
@@ -38,6 +41,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text _startText;
 
     [SerializeField] Rigidbody2D _pRb;
+
+
+    float time = 0;
+    float timeLimit = 10;
+    bool a;
+   [SerializeField] CinemachineVirtualCamera camera;
+
 
     /// <summary>ゲームの状態</summary>
     GameState m_status = GameState.NonInitialized;
@@ -53,67 +63,70 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (m_status)   // ゲームの状態によって処理を分ける
-        {
-            case GameState.NonInitialized:
-                Debug.Log("Initialize.");
-                m_playerCounter.Refresh(m_life);    // 残機表示を更新する
+   
+
+            switch (m_status)   // ゲームの状態によって処理を分ける
+            {
+                case GameState.NonInitialized:
+                    Debug.Log("Initialize.");
+                    m_playerCounter.Refresh(m_life);    // 残機表示を更新する
 
 
 
 
-                m_status = GameState.StartCount;
-                m_playerObject.transform.position = _startPos.position;
+                    m_status = GameState.StartCount;
+                    m_playerObject.transform.position = _startPos.position;
 
-                StartCoroutine(CountStart());
-                break;
-            case GameState.StartCount:
-
-
+                    StartCoroutine(CountStart());
+                    break;
+                case GameState.StartCount:
 
 
-                break;
 
-            case GameState.Initialized:
-                m_timer += Time.deltaTime;
-                if (m_timer > m_waitTimeUntilGameStarts)    // 待つ
-                {
-                    Debug.Log("Game Start.");
-                    m_timer = 0f;   // タイマーをリセットする
-                    m_status = GameState.InGame;   // ステータスをゲーム中にする
-                }
-                break;
-            case GameState.PlayerDead:
-                // 残機がなかったらゲームオーバーを表示する
-                if (m_life < 2)
-                {
 
-                    if (_enemyGeneration != null)
+                    break;
+
+                case GameState.Initialized:
+                    m_timer += Time.deltaTime;
+                    if (m_timer > m_waitTimeUntilGameStarts)    // 待つ
                     {
-                        _enemyGeneration.SetActive(false);
-                    }
-
-                    SceneManager.LoadScene("GAME OVER");
-
-
-                }
-
-                m_timer += Time.deltaTime;
-                if (m_timer > m_waitTimeAfterPlayerDeath)   // 待つ
-                {
-                    if (m_life > 0) // 残機がまだある場合
-                    {
-                        Debug.Log("Restart Game.");
+                        Debug.Log("Game Start.");
                         m_timer = 0f;   // タイマーをリセットする
-                        m_status = GameState.InGame;   // 初期化するためにステータスを更新する
+                        m_status = GameState.InGame;   // ステータスをゲーム中にする
                     }
-                    else
+                    break;
+                case GameState.PlayerDead:
+                    // 残機がなかったらゲームオーバーを表示する
+                    if (m_life < 2)
                     {
-                        GameOver(); // 残機がもうない場合はゲームオーバーにする
+
+                        if (_enemyGeneration != null)
+                        {
+                            _enemyGeneration.SetActive(false);
+                        }
+
+                        SceneManager.LoadScene("GAME OVER");
+
+
                     }
-                }
-                break;
-        }
+
+                    m_timer += Time.deltaTime;
+                    if (m_timer > m_waitTimeAfterPlayerDeath)   // 待つ
+                    {
+                        if (m_life > 0) // 残機がまだある場合
+                        {
+                            Debug.Log("Restart Game.");
+                            m_timer = 0f;   // タイマーをリセットする
+                            m_status = GameState.InGame;   // 初期化するためにステータスを更新する
+                        }
+                        else
+                        {
+                            GameOver(); // 残機がもうない場合はゲームオーバーにする
+                        }
+                    }
+                    break;
+            }
+        
     }
 
 
